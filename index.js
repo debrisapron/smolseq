@@ -37,7 +37,7 @@ const layout = `
 ^#^w^k  C  ▏ D  ▏ E  ▏ F  ▏ G  ▏ A  ▏ B  ^:
 `
 
-const scr = layout
+const scr = layout.trim()
 // .split("\n")
 // .map(
 //   (s, ix) =>
@@ -73,6 +73,7 @@ term.on("key", function (key, matches, data) {
     // case 'LEFT' : term.left( 1 ) ; break ;
     // case 'RIGHT' : term.right( 1 ) ; break ;
     case "CTRL_C":
+      term.hideCursor(false)
       process.exit()
       break
     default:
@@ -83,6 +84,8 @@ term.on("key", function (key, matches, data) {
       break
   }
 })
+
+term.hideCursor(true)
 
 function filledArray(len, cb) {
   return Array(len)
