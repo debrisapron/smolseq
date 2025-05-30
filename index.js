@@ -38,12 +38,12 @@ const layout = `
 `
 
 const scr = layout
-  .split("\n")
-  .map(
-    (s, ix) =>
-      `${ix % 10} ${s || filledArray(SCRN_W, (ix) => (ix + 1) % 10).join("")}`
-  )
-  .join("\n")
+// .split("\n")
+// .map(
+//   (s, ix) =>
+//     `${ix % 10} ${s || filledArray(SCRN_W, (ix) => (ix + 1) % 10).join("")}`
+// )
+// .join("\n")
 
 term(scr)
 
@@ -59,6 +59,30 @@ term(scr)
 //   checkerEvenCellTextAttr: { bgColor: "gray" },
 //   width: 32,
 // })
+
+term.grabInput({ mouse: "button" })
+
+term.on("mouse", (name, data) => {
+  console.log("'mouse' event:", name, data)
+})
+
+term.on("key", function (key, matches, data) {
+  switch (key) {
+    // case 'UP' : term.up( 1 ) ; break ;
+    // case 'DOWN' : term.down( 1 ) ; break ;
+    // case 'LEFT' : term.left( 1 ) ; break ;
+    // case 'RIGHT' : term.right( 1 ) ; break ;
+    case "CTRL_C":
+      process.exit()
+      break
+    default:
+      // Echo anything else
+      term.noFormat(
+        Buffer.isBuffer(data.code) ? data.code : String.fromCharCode(data.code)
+      )
+      break
+  }
+})
 
 function filledArray(len, cb) {
   return Array(len)
